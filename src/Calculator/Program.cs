@@ -33,14 +33,17 @@ namespace Calculator
             // Why doesn't replacing the = sign work and why does it break my code?
             //problem.Replace(@"=", "");
 
-            var regexItem = new Regex("^[0-9 /*+.,-]*$");
+            var regexItem = new Regex(@"^(?<firstNumber>[0-9\.,]+)\s*(?<operator>[+\-*/]{1})\s*(?<secondNumber>[0-9\.,]+)$");
+            var matchItem = regexItem.Match(problem);
+
+            Console.WriteLine(matchItem.Groups["firstNumber"].Value);
 
             if (problem.Equals("exit", StringComparison.OrdinalIgnoreCase))
             {
                 return false;
             }
-                
-            else if (regexItem.IsMatch(problem))
+
+            else if (matchItem.Success)
             {
                 Calculate(problem);
                 return true;
@@ -51,6 +54,7 @@ namespace Calculator
                 Console.WriteLine("Your entry is invalid. Please only enter numbers and operations. :)");
                 return true;
             }
+          
         }
 
         // Uses user entry to solve a mathmatical problem
