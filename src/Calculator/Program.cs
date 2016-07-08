@@ -58,36 +58,64 @@ namespace Calculator
                 // Change strings a and b to floats
                 float aNumber = float.Parse(a, CultureInfo.InvariantCulture.NumberFormat);
                 float bNumber = float.Parse(b, CultureInfo.InvariantCulture.NumberFormat);
-                float cNumber = float.Parse(c, CultureInfo.InvariantCulture.NumberFormat);
 
+                // Eventual answer
                 float f = 0;
 
-                if ((operation2 == "*" || operation2 == "/") && (operation != "*" || operation != "/"))
+                // if there are three numbers and two operators
+                if (c != "" && operation2 != "")
                 {
-                    // Calculate the answer of the second and third numbers
-                    float e = Calculate(bNumber, operation2, cNumber);
-                    // Calculate the answer of the first number and the answer of the second and third numbers
-                    f = Calculate(aNumber, operation, e);
+                    float cNumber = float.Parse(c, CultureInfo.InvariantCulture.NumberFormat);
+                    Console.WriteLine(cNumber);
+                    
+
+                    if ((operation2 == "*" || operation2 == "/") && (operation != "*" || operation != "/"))
+                    {
+                        // Calculate the answer of the second and third numbers
+                        float e = Calculate(bNumber, operation2, cNumber);
+                        // Calculate the answer of the first number and the answer of the second and third numbers
+                        f = Calculate(aNumber, operation, e);
+                    }
+
+                    else
+                    {
+                        // Calculate the answer of the first and second number
+                        float e = Calculate(aNumber, operation, bNumber);
+                        // Calculate the answer of the answer of the first and second number and the third number
+                        f = Calculate(e, operation2, cNumber);
+                    }
+
+                    // Print answer to console and a seperator for readability
+                    Console.WriteLine("The answer to {0:#,#0.#####} {1} {2:#,#0.#####} {3} {4:#,#0.#####} is {5:#,#0.#####}", aNumber, operation, bNumber, operation2, cNumber, f);
+                    Console.WriteLine("----------------------------------------------------------");
+
+                    return true;
+                } // end of if there are three numbers and two operators
+
+                // else if there are only two numbers and one operator
+                else if (c == "" && operation2 == "")
+                {
+                    f = Calculate(aNumber, operation, bNumber);
+
+                    Console.WriteLine("The answer to {0:#,#0.#####} {1} {2:#,#0.#####} is {3:#,#0.#####}", aNumber, operation, bNumber, f);
+                    Console.WriteLine("----------------------------------------------------------");
+
+                    return true;
                 }
 
+                // else someone puts an operation2, but not a c or vise versa
                 else
                 {
-                    // Calculate the answer of the first and second number
-                    float e = Calculate(aNumber, operation, bNumber);
-                    // Calculate the answer of the answer of the first and second number and the third number
-                    f = Calculate(e, operation2, cNumber);
-                }
-                
-                // Print answer to console and a seperator for readability
-                Console.WriteLine("The answer to {0:#,#0.#####} {1} {2:#,#0.#####} {3} {4:#,#0.#####} is {5:#,#0.#####}", aNumber, operation, bNumber, operation2, cNumber, f);
-                Console.WriteLine("----------------------------------------------------------");
+                    Console.WriteLine("Your entry is invalid. Please don't enter multiple numbers next to each other. :)");
 
-                return true;
-            }
+                    return true;
+                }
+
+            } // end of else if ItemMatch.Success
 
             else
             {
-                Console.WriteLine("Your entry is invalid. Please only enter numbers and operations. :)");
+                Console.WriteLine("Your entry is invalid. Please only enter numbers and operators and no trailing operators. :)");
                 return true;
             }
           
